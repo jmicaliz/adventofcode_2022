@@ -1,6 +1,6 @@
 
 DOCKERBUILD = docker build -t
-DOCKERRUN = docker run --rm -d --name
+DOCKERRUN = docker run --rm -it -v "$(shell pwd)/src:/advent/src" --name
 DOCKERPS = docker ps -q
 DOCKERSTOP = docker stop
 
@@ -16,8 +16,11 @@ help: ## generate make help
 docker-build: ## docker build
 	$(DOCKERBUILD) kbase .
 
-docker-run: ## docker run postgres container
+docker-run: ## docker run k
 	$(DOCKERRUN) kbase kbase
 
-docker-run-enter: ## docker run postgres container
-	docker run --rm -it --name kbase kbase /bin/bash
+docker-run-solutions: ## docker run solutions
+	$(DOCKERRUN) kbase kbase "k /advent/solutions/solutions.k"
+
+docker-run-enter: ## docker run bash
+	$(DOCKERRUN) kbase kbase /bin/bash

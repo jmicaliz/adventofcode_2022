@@ -1,14 +1,12 @@
 FROM debian:stable-slim
 
 RUN apt-get update && \
-    apt-get install -y curl git
+    apt-get install -y curl git gcc make rlwrap
 
-ENV NONINTERACTIVE=1
+WORKDIR /advent
 
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN git clone https://github.com/kevinlawler/kona.git && cd kona && make
 
-RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+ENV PATH="$PATH:/advent/kona"
 
-RUN apt-get install -y build-essential
-
-RUN brew install gcc && brew install kona
+CMD ["k"]

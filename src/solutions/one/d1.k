@@ -2,7 +2,7 @@
 
 \l /advent/src/lib/core
 
-pin: 0: "/advent/src/solutions/one/input"
+pin: 0: "/advent/src/solutions/one/d1_input"
 
 split_pin: core.split[pin;""]
 

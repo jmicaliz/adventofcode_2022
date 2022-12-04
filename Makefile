@@ -19,8 +19,8 @@ docker-build: ## docker build
 docker-run: ## docker run k
 	$(DOCKERRUN) kbase kbase
 
-docker-run-solutions: ## docker run solutions
-	$(DOCKERRUN) kbase kbase "k /advent/solutions/solutions.k"
+docker-run-solutions: ## docker run solutions <- this does not work
+	$(DOCKERRUN) kbase kbase "k /advent/src/solutions/solutions.k"
 
 docker-run-enter: ## docker run bash
 	$(DOCKERRUN) kbase kbase /bin/bash

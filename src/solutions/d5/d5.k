@@ -42,6 +42,6 @@ stacks: ("PLMNWVBH";"HQM";"LMQFGBDN";"GWMQFTZ";"PHTM";"TGHDJMBC";"RVFBNM";"SGRMH
 
 reorder_two' io.input
 
-two_ans: 0N
+two_ans: ,/1 #' stacks
 
 io.answer[one_ans;two_ans]

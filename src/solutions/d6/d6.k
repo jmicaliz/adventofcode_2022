@@ -3,7 +3,6 @@
 io.DAY: 6 / Replace this with numeral of day
 \l /advent/src/lib/io
 
-one_ans: 4+*&4=#:'?:'4 #' (!#*io.input) !\: *io.input
-two_ans: 14+*&14=#:'?:'14 #' (!#*io.input) !\: *io.input
+{.[x;();:;y+*&y=#:'?:'y #' (!#*io.input) !\: *io.input]} .' ((`one_ans;4);(`two_ans;14))
 
 io.answer[one_ans;two_ans]

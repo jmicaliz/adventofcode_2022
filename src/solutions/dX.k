@@ -3,6 +3,9 @@
 io.DAY: 1 / Replace this with numeral of day
 \l /advent/src/lib/io
 
+/ 1 is test, 0 is real
+input: io.gi[1]
+
 one_ans: 0N
 two_ans: 0N
 

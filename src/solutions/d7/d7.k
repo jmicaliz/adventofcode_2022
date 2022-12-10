@@ -6,60 +6,57 @@ io.DAY: 7 / Replace this with numeral of day
 
 test: 0: "/advent/src/solutions/" , io.DDAY , "/" , io.DDAY , "_test_input"
 
-curr_dir: _n
-ds: .()
+curr_dir: 0#`
+ds: ()
+
+dir_obj:{[name]
+  :(.((`name;name)
+    (`path;curr_dir)
+    (`dirs;())
+    (`size;0)))
+}
 
 do_cd:{[dir]
   curr_dir:: :[dir ~ ".."
-                ,/(-1 _ core.split[-1 _ curr_dir;"/"]) ,\: "/"
+                -1 _ curr_dir
               dir ~ ,"/"
-                ,"/"
-              curr_dir , dir , "/"]
+                ,`"/"
+              curr_dir , `$dir]
 }
 
-get_size:{[cont]
-  if[~|/("$ ls";"dir ")~\:4 # cont
-    size: 0$*core.split[cont;" "]
-    ds_path: (`"/" , `$(core.split[curr_dir;"/"]) _dv "") , `"_"
-    .[`ds;ds_path;,;size]
-    sum_ind: (-1 _ ds_path) , `SUM
-    .[`ds;sum_ind;:;:[_n~ds . sum_ind;size;(ds . sum_ind)+size]]
-
+do_ls:{[lsout]
+  if["$ ls"~lsout
+    ds:: ds , dir_obj[*-1 # curr_dir]
+    :_n
   ]
+
+  if["dir "~4 # lsout
+    ind:*&ds[;`path] ~\: curr_dir
+    ds[ind;`dirs]:: (ds @ ind)[`dirs] , `$4 _ lsout
+    :_n
+  ]
+
+  / Now it's a file size
+  size: 0$*core.split[lsout;" "]
+  size_paths: (-!#curr_dir) _\: curr_dir
+  inds: &|/'+ds[;`path] ~\:/: size_paths
+  ds[inds;`size]:: ds[inds;`size] + size
 }
 
 parse_com:{[com]
-  :["$ cd"~4#com;do_cd[5 _ com];get_size[com]]
+  :["$ cd"~4#com
+    do_cd[5 _ com]
+    do_ls[com]]
 }
 
-recurse_size:{[dic]
-  if[(0#`) ~ (!dic) _dvl `SUM `_
-    dic[`SUM]: dic[`SUM] + _f' dic @' (!dic) _dvl `SUM `_
-  ]
-  :dic
-}
+/ parse_com' test
+parse_com' io.input
 
-/  if[~5~4: dic
-/    dic[`SUM]: +/_f' dic @' !dic
-/    :dic
-/  ]/
-/
-/  if[~5~4: dic
-/    ret: +/(dic) _dv _n
-/    :ret
-/  ]
-/}
+one_ans: +/ds[&ds[;`size] < 100000;`size]
 
-/ Testing cd commands
-/ parse_com' ("$ cd /";"$ cd a";"$ cd ..";"$ cd foo";"$ cd bar";"$ cd baz";"$ cd ..";"$ cd /")
+need: 30000000 - 70000000 - ds[0;`size]
+fsizes: ds[&ds[;`size] > need;`size]
 
-parse_com' test
-
-foo: recurse_size[ds[`"/"]]
-
-one_ans: 0N
-two_ans: 0N
+two_ans: fsizes@*<fsizes
 
 io.answer[one_ans;two_ans]
-
-/ blah
